@@ -1,5 +1,5 @@
 service:
-  name: serverless-restful-api
+  name: todo-serverless-restful-api
 # app and org for use with dashboard.serverless.com
 #app: your-app-name
 #org: your-org-name
@@ -15,26 +15,26 @@ provider:
 
 functions:
   read:
-    handler: controllers/read.read
+    handler: todo.read
     events:
       - http:
           method: get
-          path: sample
+          path: todo
   create:
-    handler: controllers/create.create
+    handler: todo.create
     events:
       - http:
           method: post
-          path: sample
-  # update:
-  #   handler: controllers/update.update
-  #   events:
-  #     - http:
-  #         method: put
-  #         path: sample
-  # delete:
-  #   handler: controllers/delete.remove
-  #   events:
-  #     - http:
-  #         method: delete
-  #         path: sample
+          path: todo
+  update:
+    handler: todo.update
+    events:
+      - http:
+          method: put
+          path: todo
+  delete:
+    handler: todo.remove
+    events:
+      - http:
+          method: delete
+          path: todo
