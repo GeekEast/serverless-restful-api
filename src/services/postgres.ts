@@ -1,6 +1,12 @@
-import { Sequelize } from 'sequelize';
 import config from 'config';
-export default new Sequelize(config.get("POSTGRES.URI"));
+import { Sequelize } from 'sequelize';
+export const sequelize = new Sequelize(config.get("POSTGRES.URI"), {
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: true
+  }
+});
+
 
 
 

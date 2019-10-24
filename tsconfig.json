@@ -10,7 +10,9 @@
     "allowJs": true,
     "strict": true,
     "noImplicitAny": true,
-    "esModuleInterop":true
+    "esModuleInterop":true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

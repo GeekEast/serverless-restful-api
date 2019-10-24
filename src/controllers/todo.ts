@@ -1,5 +1,6 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
+import _ from 'lodash';
 
 /**
  * CRUD: create a todo
@@ -10,8 +11,7 @@ export const create: APIGatewayProxyHandler = async (event, _context) => {
   return {
     statusCode: 200,
     body: JSON.stringify({
-      message: "post function",
-      content: event.body
+      message: 'post function'
     }, null, 2),
   };
 }

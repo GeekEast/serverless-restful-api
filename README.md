@@ -7,6 +7,8 @@
 - [Architecture](#architecture)
 - [TODO Meta](#todo-meta)
 - [Sequelize](#sequelize)
+  - [Connect](#connect)
+  - [Test Connection](#test-connection)
 - [Further](#further)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -37,6 +39,27 @@
 - `Model` === Database `Table`
 - You could define `model` `before` connecting to database
 - After connecting to database, sequelize will `automatically` `update` database accoording to models.
+#### Connect
+```javascript
+const sequelize = new Sequelize(config.get("POSTGRES.URI"), {
+  dialect: 'postgres',
+  // heroku requires ssl connection
+  dialectOptions: {
+    ssl: true
+  }
+});
+```
+#### Test Connection
+```javascript
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
+```
 
 ### Further
 - sequelize-typescript: enhance sequelize-typescript with decorator
