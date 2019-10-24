@@ -24,3 +24,10 @@
 - Routers: `serverless.yml`
 
 ### TODO Meta
+- `id*`: integer (`auto-incrementing`)
+- `name`: string
+- `completed`: boolean(default `false`)
+- `created_at`: date(default `today`)
+- `updated_at`: date(default `today`)
+- `deleted_at`: date
+
