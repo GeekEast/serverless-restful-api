@@ -7,9 +7,14 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@types/config": "^0.0.35",
+    "@types/dotenv": "^6.1.1",
     "@types/sequelize": "^4.28.6",
+    "config": "^3.2.3",
+    "dotenv": "^8.2.0",
     "sequelize": "^5.21.1",
-    "source-map-support": "^0.5.10"
+    "source-map-support": "^0.5.10",
+    "ts-node": "^8.4.1"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.17",

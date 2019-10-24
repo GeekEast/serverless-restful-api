@@ -18,7 +18,7 @@
 ### Tools
 - **Postman** for `testing`
 - **serverless-offline** for `local development`
-- **Postgres** as `database` in RDS
+- **Postgres** as `database` in **Heroku**
 - **Sequelize** as the `orm`
 
 ### Architecture
