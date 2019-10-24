@@ -7,6 +7,7 @@
 - [Architecture](#architecture)
 - [TODO Meta](#todo-meta)
 - [Sequelize](#sequelize)
+- [Further](#further)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -36,3 +37,6 @@
 - `Model` === Database `Table`
 - You could define `model` `before` connecting to database
 - After connecting to database, sequelize will `automatically` `update` database accoording to models.
+
+### Further
+- sequelize-typescript: enhance sequelize-typescript with decorator

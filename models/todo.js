@@ -1,5 +1,4 @@
-import { Sequelize, DataTypes } from 'sequelize'
-export default (sequelize: Sequelize) => {
+export default (sequelize, DataTypes) => {
   return sequelize.define(
     "todo",
     {
@@ -34,5 +33,5 @@ export default (sequelize: Sequelize) => {
       paranoid: true, // won't do real deletion in database just give timestamp
       underscored: true // attribute name is update_at for example
     }
-  )
+  );
 }
