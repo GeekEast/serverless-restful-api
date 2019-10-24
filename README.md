@@ -5,8 +5,11 @@
 - [Takeaway](#takeaway)
 - [Tools](#tools)
 - [Architecture](#architecture)
-- [TODO Meta](#todo-meta)
+- [Table Meta](#table-meta)
 - [Sequelize](#sequelize)
+  - [Install](#install)
+  - [Model Configuration](#model-configuration)
+  - [Attribute Validation](#attribute-validation)
   - [Connect](#connect)
   - [Test Connection](#test-connection)
 - [Further](#further)
@@ -27,7 +30,7 @@
 - Controllers: defined in files like `handler.ts`
 - Routers: `serverless.yml`
 
-### TODO Meta
+### Table Meta
 - `id*`: integer (`auto-incrementing`)
 - `task`: string
 - `completed`: boolean(default `false`)
@@ -39,6 +42,12 @@
 - `Model` === Database `Table`
 - You could define `model` `before` connecting to database
 - After connecting to database, sequelize will `automatically` `update` database accoording to models.
+#### Install
+```sh
+yarn add sequelize sequelize-typescript @types/sequelize reflect-metadata @types/validator @types/node @types/bluebird
+```
+#### [Model Configuration](https://sequelize.org/master/manual/models-definition.html#configuration)
+#### [Attribute Validation](https://sequelize.org/master/manual/models-definition.html#validations)
 #### Connect
 ```javascript
 const sequelize = new Sequelize(config.get("POSTGRES.URI"), {
@@ -63,3 +72,6 @@ sequelize
 
 ### Further
 - sequelize-typescript: enhance sequelize-typescript with decorator
+
+
+
