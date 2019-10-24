@@ -20,12 +20,12 @@ functions:
       - http:
           method: get
           path: sample
-  # create:
-  #   handler: controllers/create.create
-  #   events:
-  #     - http:
-  #         method: post
-  #         path: sample
+  create:
+    handler: controllers/create.create
+    events:
+      - http:
+          method: post
+          path: sample
   # update:
   #   handler: controllers/update.update
   #   events:
