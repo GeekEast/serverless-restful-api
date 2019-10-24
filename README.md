@@ -6,6 +6,7 @@
 - [Tools](#tools)
 - [Architecture](#architecture)
 - [TODO Meta](#todo-meta)
+- [Sequelize](#sequelize)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -31,3 +32,7 @@
 - `updated_at`: date(default `today`)
 - `deleted_at`: date
 
+### Sequelize
+- `Model` === Database `Table`
+- You could define `model` `before` connecting to database
+- After connecting to database, sequelize will `automatically` `update` database accoording to models.
