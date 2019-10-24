@@ -14,27 +14,27 @@ provider:
   runtime: nodejs10.x
 
 functions:
-  create:
-    handler: controllers/create.create
-    events:
-      - http:
-          method: get
-          path: sample
   read:
     handler: controllers/read.read
     events:
       - http:
-          method: post
+          method: get
           path: sample
-  update:
-    handler: controllers/update.update
-    events:
-      - http:
-          method: put
-          path: sample
-  delete:
-    handler: controllers/delete.remove
-    events:
-      - http:
-          method: delete
-          path: sample
+  # create:
+  #   handler: controllers/create.create
+  #   events:
+  #     - http:
+  #         method: post
+  #         path: sample
+  # update:
+  #   handler: controllers/update.update
+  #   events:
+  #     - http:
+  #         method: put
+  #         path: sample
+  # delete:
+  #   handler: controllers/delete.remove
+  #   events:
+  #     - http:
+  #         method: delete
+  #         path: sample
