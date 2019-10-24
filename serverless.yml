@@ -17,25 +17,25 @@ provider:
 
 functions:
   read:
-    handler: todo.read
+    handler: controllers/todo.read
     events:
       - http:
           method: get
           path: todo
   create:
-    handler: todo.create
+    handler: controllers/todo.create
     events:
       - http:
           method: post
           path: todo
   update:
-    handler: todo.update
+    handler: controllers/todo.update
     events:
       - http:
           method: put
           path: todo
   delete:
-    handler: todo.remove
+    handler: controllers/todo.remove
     events:
       - http:
           method: delete

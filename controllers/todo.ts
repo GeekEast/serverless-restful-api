@@ -21,7 +21,7 @@ export const create: APIGatewayProxyHandler = async (event, _context) => {
  * @param event event object
  * @param _context context object
  */
-export const read: APIGatewayProxyHandler = async (event, _context) => {
+export const read: APIGatewayProxyHandler = async (_context) => {
   return {
     statusCode: 200,
     body: JSON.stringify({
@@ -35,7 +35,7 @@ export const read: APIGatewayProxyHandler = async (event, _context) => {
  * @param event event object
  * @param _context context object
  */
-export const update: APIGatewayProxyHandler = async (event, _context) => {
+export const update: APIGatewayProxyHandler = async (_context) => {
   return {
     statusCode: 200,
     body: JSON.stringify({
@@ -50,7 +50,7 @@ export const update: APIGatewayProxyHandler = async (event, _context) => {
  * @param event event object
  * @param _context context object
  */
-export const remove: APIGatewayProxyHandler = async (event, _context) => {
+export const remove: APIGatewayProxyHandler = async (_context) => {
   return {
     statusCode: 200,
     body: JSON.stringify({

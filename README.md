@@ -26,7 +26,7 @@
 
 ### TODO Meta
 - `id*`: integer (`auto-incrementing`)
-- `name`: string
+- `task`: string
 - `completed`: boolean(default `false`)
 - `created_at`: date(default `today`)
 - `updated_at`: date(default `today`)
