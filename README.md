@@ -2,35 +2,61 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table Of Content
 
+- [Project](#project)
   - [Tools](#tools)
   - [Architecture](#architecture)
-  - [Todo Meta](#todo-meta)
-  - [Sequelize with Typescript](#sequelize-with-typescript)
+  - [Model](#model)
+- [Sequelize with Typescript](#sequelize-with-typescript)
 - [Refernece](#refernece)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Project
 ### Tools
 - **Postman** for `testing`
-- **serverless-offline** for `local development`
+- **serverless-offline** for `local api development`
 - **Postgres** as `database` in **Heroku**
-- **Sequelize** as the `orm`
+- **Sequelize** as the `ORM`
 
 ### Architecture
-- Controllers: defined in files like `handler.ts`
-- Routers: `serverless.yml`
+- **Controllers**: defined in files like `handler.ts`
+- **Routers**: `serverless.yml`
+- **Models**: `./src/models`
+- **Services**: `./src/services`
 
-### Todo Meta
-- `id*`: integer (`auto-incrementing`)
-- `task`: string
-- `completed`: boolean(default `false`)
-- `created_at`: date(default `today`)
-- `updated_at`: date(default `today`)
-- `deleted_at`: date
+### Model
+- Metadata
+  - `id*`: integer (`auto-incrementing`)
+  - `task`: string
+  - `completed`: boolean(default `false`)
+  - `created_at`: date(default `today`)
+  - `updated_at`: date(default `today`)
+  - `deleted_at`: date
+- Sequelize Model
+```javascript
+@Table({
+  timestamps: true,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+  deletedAt: 'deleted_at',
+  paranoid: true,
+  underscored: true,
+})
+export class Todo extends Model<Todo> {
+  @Column({
+    type: DataType.STRING
+  })
+  task?: string;
 
-### Sequelize with Typescript
-- `Model` === Database `Table`
+  @Column({
+    defaultValue: false,
+    type: DataType.BOOLEAN
+  })
+  complete?: boolean;
+}
+```
 
+## Sequelize with Typescript
 - Install
 ```sh
 yarn add sequelize sequelize-typescript reflect-metadata @types/validator @types/node @types/bluebird
