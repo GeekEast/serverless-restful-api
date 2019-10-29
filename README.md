@@ -5,7 +5,7 @@
 - [Project](#project)
   - [Tools](#tools)
   - [Architecture](#architecture)
-  - [Model](#model)
+  - [Metadata](#metadata)
 - [Sequelize with Typescript](#sequelize-with-typescript)
 - [Refernece](#refernece)
 
@@ -24,15 +24,28 @@
 - **Models**: `./src/models`
 - **Services**: `./src/services`
 
-### Model
-- Metadata
-  - `id*`: integer (`auto-incrementing`)
-  - `task`: string
-  - `completed`: boolean(default `false`)
-  - `created_at`: date(default `today`)
-  - `updated_at`: date(default `today`)
-  - `deleted_at`: date
-- Sequelize Model
+### Metadata
+- **id**: integer (`primary key`,`not null`,`auto-incrementing`)
+- **task**: string
+- **completed**: boolean(default `false`)
+- **created_at**: date(default `today`)
+- **updated_at**: date(default `today`)
+- **deleted_at**: date
+
+## Sequelize with Typescript
+- **Install**
+```sh
+yarn add sequelize sequelize-typescript reflect-metadata @types/validator @types/node @types/bluebird
+```
+- [Official Guides](https://www.npmjs.com/package/sequelize-typescript)
+  - [Starter](https://github.com/RobinBuschmann/sequelize-typescript-example/tree/master/lib/models)
+  - [`@Table`](https://sequelize.org/master/manual/models-definition.html#configuration)
+  - [`@Column`](https://www.npmjs.com/package/sequelize-typescript#column)
+  - [`Datatypes`](https://sequelize.org/master/manual/models-definition.html#data-types)
+  - [@PrimaryKey](https://www.npmjs.com/package/sequelize-typescript#primary-key)
+  - [@CreatedAt,@UpdatedAt,@DeletedAt](https://www.npmjs.com/package/sequelize-typescript#createdat--updatedat--deletedat)
+  - [More Decorators](https://www.npmjs.com/package/sequelize-typescript#shortcuts)
+  - [Model Validation](https://www.npmjs.com/package/sequelize-typescript#model-validation)
 ```javascript
 @Table({
   timestamps: true,
@@ -55,28 +68,9 @@ export class Todo extends Model<Todo> {
   complete?: boolean;
 }
 ```
-
-## Sequelize with Typescript
-- Install
-```sh
-yarn add sequelize sequelize-typescript reflect-metadata @types/validator @types/node @types/bluebird
-```
-- [Official Guides](https://www.npmjs.com/package/sequelize-typescript)
-  - [Starter](https://github.com/RobinBuschmann/sequelize-typescript-example/tree/master/lib/models)
-  - [**@Table**](https://sequelize.org/master/manual/models-definition.html#configuration)
-  - [**@Column**](https://www.npmjs.com/package/sequelize-typescript#column)
-  - [**Datatypes**](https://sequelize.org/master/manual/models-definition.html#data-types)
-  - [@PrimaryKey](https://www.npmjs.com/package/sequelize-typescript#primary-key)
-  - [@CreatedAt,@UpdatedAt,@DeletedAt](https://www.npmjs.com/package/sequelize-typescript#createdat--updatedat--deletedat)
-  - [More Decorators](https://www.npmjs.com/package/sequelize-typescript#shortcuts)
-  - [Model Validation](https://www.npmjs.com/package/sequelize-typescript#model-validation)
 - [Configuration](https://www.npmjs.com/package/sequelize-typescript#configuration)
 ```javascript
 // postgres
-import config from 'config';
-import { Sequelize } from 'sequelize-typescript';
-import { Todo } from '../models/todo.model';
-
 export const sequelize = new Sequelize(config.get("POSTGRES.URI"), {
   dialect: 'postgres',
   dialectOptions: {
@@ -87,23 +81,12 @@ export const sequelize = new Sequelize(config.get("POSTGRES.URI"), {
 
 export const seed = async (func: Function) => {
   await sequelize.sync();
-  await func();
+  const result = await func();
   sequelize.close();
+  return result;
 }
 ```
-- Testing
-```javascript
-import { Todo } from './models/todo.model';
-import { seed } from './services/postgres';
-
-seed(async () => {
-  await Todo.create({
-    task: 'wash dish',
-    complete: true
-  })
-})
-```
-- CRUD
+- [CRUD](http://semlinker.com/node-sequelize-quickstart/)
 ```javascript
 // Rreate one
 seed(async () => {
@@ -182,6 +165,4 @@ seed(async () => {
 
 
 ## Refernece
-- [Why you should avoid orms?](https://blog.logrocket.com/why-you-should-avoid-orms-with-examples-in-node-js-e0baab73fa5/)
-- [Get stated with Sequelize](https://medium.com/@zhhjoseph/getting-started-with-sequelize-dd6045f366e6)
-- [Sequelize CRUD](http://semlinker.com/node-sequelize-quickstart/)
+- [Medium: Get stated with Sequelize](https://medium.com/@zhhjoseph/getting-started-with-sequelize-dd6045f366e6)
