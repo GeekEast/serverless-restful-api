@@ -2,23 +2,13 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ## Table Of Content
 
-- [Takeaway](#takeaway)
-- [Tools](#tools)
-- [Architecture](#architecture)
-- [Table Meta](#table-meta)
-- [Sequelize](#sequelize)
-  - [Install](#install)
-  - [Model Configuration](#model-configuration)
-  - [Attribute Validation](#attribute-validation)
-  - [Connect](#connect)
-  - [Test Connection](#test-connection)
-- [Further](#further)
+  - [Tools](#tools)
+  - [Architecture](#architecture)
+  - [Todo Meta](#todo-meta)
+  - [Sequelize with Typescript](#sequelize-with-typescript)
+- [Refernece](#refernece)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-### Takeaway
-- `Router`: s`erverless.yml`
-- `Database`: AWS `RDS` with `sequelize` as the ORM
 
 ### Tools
 - **Postman** for `testing`
@@ -30,7 +20,7 @@
 - Controllers: defined in files like `handler.ts`
 - Routers: `serverless.yml`
 
-### Table Meta
+### Todo Meta
 - `id*`: integer (`auto-incrementing`)
 - `task`: string
 - `completed`: boolean(default `false`)
@@ -38,40 +28,134 @@
 - `updated_at`: date(default `today`)
 - `deleted_at`: date
 
-### Sequelize
+### Sequelize with Typescript
 - `Model` === Database `Table`
-- You could define `model` `before` connecting to database
-- After connecting to database, sequelize will `automatically` `update` database accoording to models.
-#### Install
+
+- Install
 ```sh
-yarn add sequelize sequelize-typescript @types/sequelize reflect-metadata @types/validator @types/node @types/bluebird
+yarn add sequelize sequelize-typescript reflect-metadata @types/validator @types/node @types/bluebird
 ```
-#### [Model Configuration](https://sequelize.org/master/manual/models-definition.html#configuration)
-#### [Attribute Validation](https://sequelize.org/master/manual/models-definition.html#validations)
-#### Connect
+- [Official Guides](https://www.npmjs.com/package/sequelize-typescript)
+  - [Starter](https://github.com/RobinBuschmann/sequelize-typescript-example/tree/master/lib/models)
+  - [**@Table**](https://sequelize.org/master/manual/models-definition.html#configuration)
+  - [**@Column**](https://www.npmjs.com/package/sequelize-typescript#column)
+  - [**Datatypes**](https://sequelize.org/master/manual/models-definition.html#data-types)
+  - [@PrimaryKey](https://www.npmjs.com/package/sequelize-typescript#primary-key)
+  - [@CreatedAt,@UpdatedAt,@DeletedAt](https://www.npmjs.com/package/sequelize-typescript#createdat--updatedat--deletedat)
+  - [More Decorators](https://www.npmjs.com/package/sequelize-typescript#shortcuts)
+  - [Model Validation](https://www.npmjs.com/package/sequelize-typescript#model-validation)
+- [Configuration](https://www.npmjs.com/package/sequelize-typescript#configuration)
 ```javascript
-const sequelize = new Sequelize(config.get("POSTGRES.URI"), {
+// postgres
+import config from 'config';
+import { Sequelize } from 'sequelize-typescript';
+import { Todo } from '../models/todo.model';
+
+export const sequelize = new Sequelize(config.get("POSTGRES.URI"), {
   dialect: 'postgres',
-  // heroku requires ssl connection
   dialectOptions: {
     ssl: true
-  }
+  },
+  models: [Todo]
 });
+
+export const seed = async (func: Function) => {
+  await sequelize.sync();
+  await func();
+  sequelize.close();
+}
 ```
-#### Test Connection
+- Testing
 ```javascript
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
+import { Todo } from './models/todo.model';
+import { seed } from './services/postgres';
+
+seed(async () => {
+  await Todo.create({
+    task: 'wash dish',
+    complete: true
   })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
+})
+```
+- CRUD
+```javascript
+// Rreate one
+seed(async () => {
+  await Todo.create({
+    task: 'wash dish',
+    complete: true
+  })
+})
+
+// Read One
+seed(async () => {
+  const todo: Todo = await Todo.findOne({
+    where: { id: 2 }
+  })
+  console.log(todo.id);
+})
+
+// Read Many
+seed(async () => {
+  const todos: Todo[] = await Todo.findAll({
+    where: { id: 2 }
+  })
+  console.log(todos);
+})
+
+// Update One
+seed(async () => {
+  const todo = await Todo.findOne({
+    where: { id: 2 }
   });
+  if (todo) {
+    await todo.update({
+      task: 'Happy Update'
+    })
+  }
+})
+
+
+// Remove One logically
+seed(async () => {
+  const todo = await Todo.findOne({
+    where: { id: 2 }
+  })
+  if (todo) {
+    await todo.destroy();
+  }
+})
+
+// Remove All logically
+seed(async () => {
+  await Todo.destroy({
+    where: { id: 1 }
+  })
+})
+
+// Remove One physically
+seed(async () => {
+  const todo = await Todo.findOne({
+    where: { id: 1 }
+  })
+  if (todo) {
+    await todo.destroy({ force: true });
+  }
+})
+
+
+// Remove All physically
+seed(async () => {
+  await Todo.destroy({
+    where: { id: 2 },
+    force: true
+  })
+})
 ```
 
-### Further
-- sequelize-typescript: enhance sequelize-typescript with decorator
 
 
-
+## Refernece
+- [Why you should avoid orms?](https://blog.logrocket.com/why-you-should-avoid-orms-with-examples-in-node-js-e0baab73fa5/)
+- [Get stated with Sequelize](https://medium.com/@zhhjoseph/getting-started-with-sequelize-dd6045f366e6)
+- [Sequelize CRUD](http://semlinker.com/node-sequelize-quickstart/)

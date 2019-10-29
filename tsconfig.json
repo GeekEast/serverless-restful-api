@@ -16,7 +16,7 @@
     "noImplicitAny": true,
     "esModuleInterop":true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    "experimentalDecorators": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
