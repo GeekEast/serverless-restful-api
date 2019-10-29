@@ -4,19 +4,42 @@ import _ from 'lodash';
 import { seed } from '../services/postgres';
 import { Todo } from '../models/todo.model';
 
+// /**
+//  * CRUD: create a todo
+//  * @param event event object
+//  * @param _context context object
+//  */
+// export const create: APIGatewayProxyHandler = async (event, _context) => {
+//   const attrs: Object = event.body;
+//   const todo: Todo = await seed(async () => await Todo.create(attrs));
+//   return {
+//     statusCode: 200,
+//     body: JSON.stringify({
+//       data: todo ? todo.toJSON() : null
+//     }, null, 2),
+//   };
+// }
+
 /**
  * CRUD: create a todo
  * @param event event object
  * @param _context context object
  */
 export const create: APIGatewayProxyHandler = async (event, _context) => {
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: 'post function'
-    }, null, 2),
-  };
+  try {
+    const todo = await Todo.create(JSON.parse(event.body));
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        data: todo ? todo.toJSON() : ""
+      })
+    }
+  } catch (err) {
+    return {
+      statusCode: 400,
+      body: "Internal Error"
+    }
+  }
 }
 
 /**
@@ -31,7 +54,6 @@ export const read: APIGatewayProxyHandler = async (event, _context) => {
       where: queryParameters
     })
   });
-
   return {
     statusCode: 200,
     body: JSON.stringify({
@@ -45,7 +67,11 @@ export const read: APIGatewayProxyHandler = async (event, _context) => {
  * @param event event object
  * @param _context context object
  */
-export const update: APIGatewayProxyHandler = async (_context) => {
+export const update: APIGatewayProxyHandler = async (event, _context) => {
+  // event,
+
+  Todo.findOne({})
+
   return {
     statusCode: 200,
     body: JSON.stringify({

@@ -1,5 +1,5 @@
-import { Model, Table, Column, PrimaryKey, Sequelize, AutoIncrement, DataType, AllowNull } from 'sequelize-typescript';
-
+import { Model, Table, Column, DataType } from 'sequelize-typescript';
+// import { sequelize } from '../services/postgres';
 
 @Table({
   timestamps: true,

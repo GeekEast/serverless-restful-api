@@ -178,6 +178,8 @@ module.exports = {
   ...
 ```
 ### The response is very slow using `Sequelize`
+- Oh man, this is not becuase `Sequelize`. It's because you're far from the `Database Server`.
+- If you have many servers hosted in different places in the world, use `cloudfront` to help you request to the nearest server.
 
 ## Refernece
 - [Medium: Get stated with Sequelize](https://medium.com/@zhhjoseph/getting-started-with-sequelize-dd6045f366e6)

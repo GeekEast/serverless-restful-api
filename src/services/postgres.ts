@@ -10,6 +10,8 @@ export const sequelize = new Sequelize(config.get("POSTGRES.URI"), {
   models: [Todo]
 });
 
+sequelize.sync();
+
 export const seed = async (func: Function) => {
   await sequelize.sync();
   const result = await func();
