@@ -35,7 +35,7 @@ export const read: APIGatewayProxyHandler = async (event, _context) => {
   return {
     statusCode: 200,
     body: JSON.stringify({
-      data: todo.toJSON()
+      data: todo ? todo.toJSON() : null
     }, null, 2),
   };
 }
