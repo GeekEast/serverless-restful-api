@@ -1,6 +1,8 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
 import _ from 'lodash';
+import { seed } from '../services/postgres';
+import { Todo } from '../models/todo.model';
 
 /**
  * CRUD: create a todo
@@ -8,6 +10,7 @@ import _ from 'lodash';
  * @param _context context object
  */
 export const create: APIGatewayProxyHandler = async (event, _context) => {
+
   return {
     statusCode: 200,
     body: JSON.stringify({
@@ -21,11 +24,18 @@ export const create: APIGatewayProxyHandler = async (event, _context) => {
  * @param event event object
  * @param _context context object
  */
-export const read: APIGatewayProxyHandler = async (_context) => {
+export const read: APIGatewayProxyHandler = async (event, _context) => {
+  const queryParameters = event.queryStringParameters
+  const todo: Todo = await seed(async () => {
+    return await Todo.findOne({
+      where: queryParameters
+    })
+  });
+
   return {
     statusCode: 200,
     body: JSON.stringify({
-      message: 'get function'
+      data: todo.toJSON()
     }, null, 2),
   };
 }

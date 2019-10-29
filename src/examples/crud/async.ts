@@ -1,7 +1,7 @@
-import { Todo } from './todo.model';
-import { seed } from '../services/postgres';
+import { Todo } from '../../models/todo.model';
+import { seed } from '../../services/postgres';
 
-// Rreate one
+// Create one
 seed(async () => {
   await Todo.create({
     task: 'wash dish',

@@ -7,7 +7,11 @@
   - [Architecture](#architecture)
   - [Metadata](#metadata)
 - [Sequelize with Typescript](#sequelize-with-typescript)
+- [Issues](#issues)
+  - [**Error: Please install pg package manually**](#error-please-install-pg-package-manually)
+  - [The response is very slow using `Sequelize`](#the-response-is-very-slow-using-sequelize)
 - [Refernece](#refernece)
+- [Blog](#blog)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -162,7 +166,21 @@ seed(async () => {
 })
 ```
 
-
+## Issues
+### **Error: Please install pg package manually**
+- [Solution:](https://github.com/webpack/webpack/issues/4879#issuecomment-427240835) `yarn add webpack-node-externals`
+```javascript
+// webpack.config.js
+const nodeExternals = require('webpack-node-externals');
+module.exports = {
+  ...
+  externals: [nodeExternals()],
+  ...
+```
+### The response is very slow using `Sequelize`
 
 ## Refernece
 - [Medium: Get stated with Sequelize](https://medium.com/@zhhjoseph/getting-started-with-sequelize-dd6045f366e6)
+
+## Blog
+- [James Long](https://jlongster.com/)
