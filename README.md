@@ -7,6 +7,7 @@
   - [Architecture](#architecture)
   - [Metadata](#metadata)
 - [Sequelize with Typescript](#sequelize-with-typescript)
+  - [Controllers](#controllers)
 - [Issues](#issues)
   - [**Error: Please install pg package manually**](#error-please-install-pg-package-manually)
   - [The response is very slow using `Sequelize`](#the-response-is-very-slow-using-sequelize)
@@ -92,7 +93,7 @@ export const seed = async (func: Function) => {
   return result;
 }
 ```
-- [CRUD](http://semlinker.com/node-sequelize-quickstart/)
+- [CRUD Examples](http://semlinker.com/node-sequelize-quickstart/)
 ```javascript
 // Rreate one
 seed(async () => {
@@ -167,6 +168,26 @@ seed(async () => {
   })
 })
 ```
+### Controllers
+- Create 
+```javascript
+export const create: APIGatewayProxyHandler = async (event, _context) => {
+  try {
+    const todo = await Todo.create(JSON.parse(event.body));
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        data: todo ? todo.toJSON() : null
+      })
+    }
+  } catch (err) {
+    return {
+      statusCode: 400,
+      body: "Internal Error"
+    }
+  }
+}
+```
 
 ## Issues
 ### **Error: Please install pg package manually**
@@ -212,6 +233,7 @@ sequelize.addModels([Todo]); // will synchronize with database and and models
 
 ## Refernece
 - [Medium: Get stated with Sequelize](https://medium.com/@zhhjoseph/getting-started-with-sequelize-dd6045f366e6)
+- [AWS Examples](https://github.com/aws-samples)
 
 ## Blog
 - [James Long](https://jlongster.com/)
