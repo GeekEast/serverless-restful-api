@@ -10,6 +10,8 @@
 - [Issues](#issues)
   - [**Error: Please install pg package manually**](#error-please-install-pg-package-manually)
   - [The response is very slow using `Sequelize`](#the-response-is-very-slow-using-sequelize)
+  - [Should Sync before using any model](#should-sync-before-using-any-model)
+  - [What is the difference between `PATCH` and `PUT`?](#what-is-the-difference-between-patch-and-put)
 - [Refernece](#refernece)
 - [Blog](#blog)
 
@@ -180,6 +182,33 @@ module.exports = {
 ### The response is very slow using `Sequelize`
 - Oh man, this is not becuase `Sequelize`. It's because you're far from the `Database Server`.
 - If you have many servers hosted in different places in the world, use `cloudfront` to help you request to the nearest server.
+- By the way, `within` the API you have to do response `synchronously`.
+- But when you are outside the API, for instance in the frontedn, you should do call `asychronously`
+### Should Sync before using any model
+- If you don't `sync()` before using the model, you will get an error like `"Todo" needs to be added to a Sequelize instance.' `
+- One way to deal with `sync()`, which need you to add `sync()` a lot of times.
+```javascript
+// postgres: no seqeulize.sync() call
+// in controllers
+await sequelize.sync();
+const todo = await Todo.create(JSON.parse(event.body));
+```
+- Another way to deal with `sync()`:
+  - Dynamicall add models
+  - Automatically call `sync()` before you want to use model
+```javascript
+// postgres.ts add
+sequelize.sync().then(() => {
+  console.log("Synchornization Done.")
+}).catch(() => console.log("Synchronization Failed."))
+
+// Todo.ts add before CRUD method
+sequelize.addModels([Todo]); // will synchronize with database and and models
+```
+### What is the difference between `PATCH` and `PUT`?
+- `PATCH` is used to update parts of an object.  **Default**
+- `PUT` is used to update the whole object.
+
 
 ## Refernece
 - [Medium: Get stated with Sequelize](https://medium.com/@zhhjoseph/getting-started-with-sequelize-dd6045f366e6)

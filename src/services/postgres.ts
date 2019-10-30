@@ -10,7 +10,9 @@ export const sequelize = new Sequelize(config.get("POSTGRES.URI"), {
   models: [Todo]
 });
 
-sequelize.sync();
+sequelize.sync().then(() => {
+  console.log("Synchornization Done.")
+}).catch(() => console.log("Synchronization Failed."))
 
 export const seed = async (func: Function) => {
   await sequelize.sync();

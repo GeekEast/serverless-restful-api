@@ -1,24 +1,9 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
 import _ from 'lodash';
-import { seed } from '../services/postgres';
 import { Todo } from '../models/todo.model';
-
-// /**
-//  * CRUD: create a todo
-//  * @param event event object
-//  * @param _context context object
-//  */
-// export const create: APIGatewayProxyHandler = async (event, _context) => {
-//   const attrs: Object = event.body;
-//   const todo: Todo = await seed(async () => await Todo.create(attrs));
-//   return {
-//     statusCode: 200,
-//     body: JSON.stringify({
-//       data: todo ? todo.toJSON() : null
-//     }, null, 2),
-//   };
-// }
+import { sequelize } from '../services/postgres';
+sequelize.addModels([Todo]); // will synchronize with database and and models
 
 /**
  * CRUD: create a todo
@@ -31,7 +16,7 @@ export const create: APIGatewayProxyHandler = async (event, _context) => {
     return {
       statusCode: 200,
       body: JSON.stringify({
-        data: todo ? todo.toJSON() : ""
+        data: todo ? todo.toJSON() : null
       })
     }
   } catch (err) {
@@ -48,18 +33,21 @@ export const create: APIGatewayProxyHandler = async (event, _context) => {
  * @param _context context object
  */
 export const read: APIGatewayProxyHandler = async (event, _context) => {
-  const queryParameters = event.queryStringParameters
-  const todo: Todo = await seed(async () => {
-    return await Todo.findOne({
-      where: queryParameters
-    })
-  });
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      data: todo ? todo.toJSON() : null
-    }, null, 2),
-  };
+  try {
+    const todo = await Todo.findOne({ where: event.queryStringParameters });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        data: todo ? todo.toJSON() : null
+      }, null, 2),
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      statusCode: 400,
+      body: "Internal Error"
+    }
+  }
 }
 
 /**
@@ -68,16 +56,30 @@ export const read: APIGatewayProxyHandler = async (event, _context) => {
  * @param _context context object
  */
 export const update: APIGatewayProxyHandler = async (event, _context) => {
-  // event,
+  try {
+    const body = JSON.parse(event.body);
+    const id = event.queryStringParameters.id;
+    const todo = await Todo.findOne({ where: { id } });
+    let updated_todo: Todo | null;
+    if (todo) {
+      updated_todo = await todo.update(body)
+    }
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        data: updated_todo ? updated_todo.toJSON() : null
+      }, null, 2),
+    };
+  } catch (err) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        data: "Internal Error"
+      })
+    }
 
-  Todo.findOne({})
+  }
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: 'update function'
-    }, null, 2),
-  };
 }
 
 
@@ -86,13 +88,22 @@ export const update: APIGatewayProxyHandler = async (event, _context) => {
  * @param event event object
  * @param _context context object
  */
-export const remove: APIGatewayProxyHandler = async (_context) => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: 'delete function'
-    }, null, 2),
-  };
+export const remove: APIGatewayProxyHandler = async (event, _context) => {
+  try {
+    const todo = await Todo.findOne({ where: event.queryStringParameters });
+    await todo.destroy();
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        data: todo ? todo.toJSON() : "deleted"
+      }, null, 2),
+    };
+  } catch (err) {
+    return {
+      statusCode: 400,
+      body: "Internal Error"
+    }
+  }
 }
 
 

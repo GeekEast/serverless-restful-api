@@ -37,7 +37,7 @@ functions:
     handler: src/controllers/todo.update
     events:
       - http:
-          method: put
+          method: patch
           path: todo
   delete:
     handler: src/controllers/todo.remove
