@@ -1,12 +1,14 @@
 const path = require('path');
 const slsw = require('serverless-webpack');
-const nodeExternals = require('webpack-node-externals');
+// const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   mode: slsw.lib.webpack.isLocal ? 'development' : 'production',
   entry: slsw.lib.entries,
-  devtool: 'source-map',
-  externals: [nodeExternals()],
+  // externals: [nodeExternals()],
+  // externals: [nodeExternals({
+  //   whitelist: ['/aws-sdk/', 'sequelize-typescript', 'config', 'reflect-metadata', 'sequelize', 'sequelize-typescript', 'retry-as-promised', 'any-promise']
+  // })],
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
   },

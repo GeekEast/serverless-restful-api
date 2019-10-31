@@ -8,13 +8,15 @@
   - [Metadata](#metadata)
 - [Sequelize with Typescript](#sequelize-with-typescript)
   - [Controllers](#controllers)
+- [Deployment](#deployment)
+  - [Set Environment Variables](#set-environment-variables)
+- [Remove Service](#remove-service)
 - [Issues](#issues)
   - [**Error: Please install pg package manually**](#error-please-install-pg-package-manually)
   - [The response is very slow using `Sequelize`](#the-response-is-very-slow-using-sequelize)
   - [Should Sync before using any model](#should-sync-before-using-any-model)
   - [What is the difference between `PATCH` and `PUT`?](#what-is-the-difference-between-patch-and-put)
 - [Refernece](#refernece)
-- [Blog](#blog)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -42,7 +44,8 @@
 ## Sequelize with Typescript
 - **Install**
 ```sh
-yarn add sequelize sequelize-typescript reflect-metadata @types/validator @types/node @types/bluebird
+yarn add sequelize sequelize-typescript reflect-metadata
+yarn add --dev @types/validator @types/node @types/bluebird
 ```
 - [Official Guides](https://www.npmjs.com/package/sequelize-typescript)
   - [Starter](https://github.com/RobinBuschmann/sequelize-typescript-example/tree/master/lib/models)
@@ -189,9 +192,31 @@ export const create: APIGatewayProxyHandler = async (event, _context) => {
 }
 ```
 
+## Deployment
+### Set Environment Variables
+- Gloabl
+```yml
+provider:
+  name: aws
+  stage: dev
+  environment:
+    SYSTEM_ID: jdoe
+```
+- Function Specific
+```yml
+functions:
+  hello:
+    handler: handler.hello
+    environment:
+      SYSTEM_URL: http://example.com/api/v1
+```
+
+## Remove Service
+
+
 ## Issues
 ### **Error: Please install pg package manually**
-- [Solution:](https://github.com/webpack/webpack/issues/4879#issuecomment-427240835) `yarn add webpack-node-externals`
+- [Solution: Deprecated](https://github.com/webpack/webpack/issues/4879#issuecomment-427240835) `yarn add webpack-node-externals`
 ```javascript
 // webpack.config.js
 const nodeExternals = require('webpack-node-externals');
@@ -200,14 +225,47 @@ module.exports = {
   externals: [nodeExternals()],
   ...
 ```
+
+- [Solution](https://serverless.com/plugins/serverless-plugin-typescript/)
+```sh
+yarn remove serverless-webpack webpack
+yarn add --dev serverless-plugin-typescript typescript
+```
+```yml
+plugins:
+  - serverless-plugin-typescript
+```
+```json
+  "compilerOptions": {
+    "module": "commonjs",
+    "strictNullChecks": false,
+    "pretty": true,
+    "skipLibCheck": false,
+    "lib": ["es2015"],
+    "moduleResolution": "node",
+    "noUnusedParameters": true,
+    "sourceMap": true,
+    "target": "es6",
+    "outDir": ".build", // mandatory
+    "rootDir": "./", // mandatory
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "esModuleInterop":true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+```
+
+
 ### The response is very slow using `Sequelize`
 - Oh man, this is not becuase `Sequelize`. It's because you're far from the `Database Server`.
 - If you have many servers hosted in different places in the world, use `cloudfront` to help you request to the nearest server.
 - By the way, `within` the API you have to do response `synchronously`.
 - But when you are outside the API, for instance in the frontedn, you should do call `asychronously`
 ### Should Sync before using any model
-- If you don't `sync()` before using the model, you will get an error like `"Todo" needs to be added to a Sequelize instance.' `
-- One way to deal with `sync()`, which need you to add `sync()` a lot of times.
+- If you don't `sync()` before using the model, you will get an error like `"Todo" needs to be added to a Sequelize instance.`
+- One way to deal with `sync()` to do add it to every controber so required you to add `sync()` a lot of times.**Bad**
 ```javascript
 // postgres: no seqeulize.sync() call
 // in controllers
@@ -216,6 +274,10 @@ const todo = await Todo.create(JSON.parse(event.body));
 ```
 - Another way to deal with `sync()`:
   - Dynamicall add models
+```javascript
+// Todo.ts add before CRUD method
+sequelize.addModels([Todo]); // will synchronize with database and and models
+```
   - Automatically call `sync()` before you want to use model
 ```javascript
 // postgres.ts add
@@ -223,8 +285,7 @@ sequelize.sync().then(() => {
   console.log("Synchornization Done.")
 }).catch(() => console.log("Synchronization Failed."))
 
-// Todo.ts add before CRUD method
-sequelize.addModels([Todo]); // will synchronize with database and and models
+
 ```
 ### What is the difference between `PATCH` and `PUT`?
 - `PATCH` is used to update parts of an object.  **Default**
@@ -234,6 +295,6 @@ sequelize.addModels([Todo]); // will synchronize with database and and models
 ## Refernece
 - [Medium: Get stated with Sequelize](https://medium.com/@zhhjoseph/getting-started-with-sequelize-dd6045f366e6)
 - [AWS Examples](https://github.com/aws-samples)
+- [Serverless Environment Variables](https://medium.com/@purplecones/serverless-environment-variables-4ec818f67388)
+- [Serverless Plugin Typescript](https://serverless.com/plugins/serverless-plugin-typescript/)
 
-## Blog
-- [James Long](https://jlongster.com/)

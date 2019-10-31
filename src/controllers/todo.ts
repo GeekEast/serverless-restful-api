@@ -77,9 +77,7 @@ export const update: APIGatewayProxyHandler = async (event, _context) => {
         data: "Internal Error"
       })
     }
-
   }
-
 }
 
 

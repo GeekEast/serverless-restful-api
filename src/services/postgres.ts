@@ -1,8 +1,8 @@
-import config from 'config';
 import { Sequelize } from 'sequelize-typescript';
 import { Todo } from '../models/todo.model';
 
-export const sequelize = new Sequelize(config.get("POSTGRES.URI"), {
+export const sequelize = new Sequelize(process.env.TODO_DB_URI, {
+  // export const sequelize = new Sequelize(config.get("POSTGRES.URI"), {
   dialect: 'postgres',
   dialectOptions: {
     ssl: true
