@@ -11,10 +11,7 @@
 - [Deployment](#deployment)
   - [Set Environment Variables](#set-environment-variables)
   - [Setup API Key](#setup-api-key)
-- [Remove](#remove)
   - [Deploy](#deploy)
-- [Issues](#issues)
-  - [**Error: Please install pg package manually**](#error-please-install-pg-package-manually)
   - [The response is very slow using `Sequelize`](#the-response-is-very-slow-using-sequelize)
   - [Should Sync before using any model](#should-sync-before-using-any-model)
   - [What is the difference between `PATCH` and `PUT`?](#what-is-the-difference-between-patch-and-put)
@@ -231,14 +228,15 @@ functions:
           private: true
 ```
 - use `x-api-key` in the header
+### Deploy
+- apiKeys will be `printed` after deployment in the console
+```sh
+sls de
 ## Remove
 ```sh
 sls remove
 ```
-### Deploy
-- apiKeys will be `printed` after deployment in the console
-```sh
-sls deploy
+ploy
 ```
 
 ## Issues
