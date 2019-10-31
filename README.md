@@ -14,10 +14,10 @@
   - [Deploy](#deploy)
 - [Remove](#remove)
 - [Issues](#issues)
-  - [**Error: Please install pg package manually**](#error-please-install-pg-package-manually)
-  - [The response is very slow using `Sequelize`](#the-response-is-very-slow-using-sequelize)
-  - [Should Sync before using any model](#should-sync-before-using-any-model)
-  - [What is the difference between `PATCH` and `PUT`?](#what-is-the-difference-between-patch-and-put)
+    - [Error: Please install pg package manually](#error-please-install-pg-package-manually)
+    - [The response is very slow using `Sequelize`](#the-response-is-very-slow-using-sequelize)
+    - [Should Sync before using any model](#should-sync-before-using-any-model)
+    - [What is the difference between `PATCH` and `PUT`?](#what-is-the-difference-between-patch-and-put)
 - [Refernece](#refernece)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -245,7 +245,7 @@ sls remove
 
 
 ## Issues
-### **Error: Please install pg package manually**
+#### Error: Please install pg package manually
 - [Solution: Deprecated](https://github.com/webpack/webpack/issues/4879#issuecomment-427240835) `yarn add webpack-node-externals`
 ```javascript
 // webpack.config.js
@@ -288,12 +288,12 @@ plugins:
 ```
 
 
-### The response is very slow using `Sequelize`
+#### The response is very slow using `Sequelize`
 - Oh man, this is not becuase `Sequelize`. It's because you're far from the `Database Server`.
 - If you have many servers hosted in different places in the world, use `cloudfront` to help you request to the nearest server.
 - By the way, `within` the API you have to do response `synchronously`.
 - But when you are outside the API, for instance in the frontedn, you should do call `asychronously`
-### Should Sync before using any model
+#### Should Sync before using any model
 - If you don't `sync()` before using the model, you will get an error like `"Todo" needs to be added to a Sequelize instance.`
 - One way to deal with `sync()` to do add it to every controber so required you to add `sync()` a lot of times.**Bad**
 ```javascript
@@ -317,7 +317,7 @@ sequelize.sync().then(() => {
 
 
 ```
-### What is the difference between `PATCH` and `PUT`?
+#### What is the difference between `PATCH` and `PUT`?
 - `PATCH` is used to update parts of an object.  **Default**
 - `PUT` is used to update the whole object.
 
