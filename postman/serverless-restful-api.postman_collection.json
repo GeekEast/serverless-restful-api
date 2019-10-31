@@ -154,6 +154,11 @@
 								"name": "Content-Type",
 								"value": "application/json",
 								"type": "text"
+							},
+							{
+								"key": "x-api-key",
+								"value": "ox5pyyVcr224oZIhluWlm8joLNv3xI5c9HzWGG8u",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -216,9 +221,15 @@
 					"name": "Delete",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "ox5pyyVcr224oZIhluWlm8joLNv3xI5c9HzWGG8u",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "https://5lnt8ytcrd.execute-api.ap-southeast-2.amazonaws.com/dev/todo?id=7",
+							"raw": "https://5lnt8ytcrd.execute-api.ap-southeast-2.amazonaws.com/dev/todo?=&id=2",
 							"protocol": "https",
 							"host": [
 								"5lnt8ytcrd",
@@ -233,8 +244,12 @@
 							],
 							"query": [
 								{
+									"key": "",
+									"value": ""
+								},
+								{
 									"key": "id",
-									"value": "7"
+									"value": "2"
 								}
 							]
 						}
@@ -250,6 +265,11 @@
 								"key": "Content-Type",
 								"name": "Content-Type",
 								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-api-key",
+								"value": "ox5pyyVcr224oZIhluWlm8joLNv3xI5c9HzWGG8u",
 								"type": "text"
 							}
 						],

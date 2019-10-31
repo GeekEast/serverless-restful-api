@@ -17,6 +17,8 @@ provider:
   timeout: 300
   environment:
     TODO_DB_URI: "postgres://xkytkdsdgzsydm:404266a4eefa5e44b319ac450f6a7f2d6a357ee6e006dbc11a0309559d99fa1a@ec2-174-129-229-106.compute-1.amazonaws.com:5432/dfpaaqs6nhokpj"
+  apiKeys:
+    - firstKey
 
 package:
   include:
@@ -38,15 +40,18 @@ functions:
       - http:
           method: post
           path: todo
+          private: true
   update:
     handler: src/controllers/todo.update
     events:
       - http:
           method: patch
           path: todo
+          private: true
   delete:
     handler: src/controllers/todo.remove
     events:
       - http:
           method: delete
           path: todo
+          private: tree

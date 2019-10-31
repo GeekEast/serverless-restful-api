@@ -10,7 +10,9 @@
   - [Controllers](#controllers)
 - [Deployment](#deployment)
   - [Set Environment Variables](#set-environment-variables)
-- [Remove Service](#remove-service)
+  - [Setup API Key](#setup-api-key)
+- [Remove](#remove)
+  - [Deploy](#deploy)
 - [Issues](#issues)
   - [**Error: Please install pg package manually**](#error-please-install-pg-package-manually)
   - [The response is very slow using `Sequelize`](#the-response-is-very-slow-using-sequelize)
@@ -210,9 +212,34 @@ functions:
     environment:
       SYSTEM_URL: http://example.com/api/v1
 ```
+### Setup API Key
+- [Guide](https://serverless.com/framework/docs/providers/aws/events/apigateway#setting-api-keys-for-your-rest-api)
+```yml
+provider:
+  # ...
+  apiKeys:
+    - firstKey
 
-## Remove Service
-
+# ...
+functions:
+  create:
+    handler: src/controllers/todo.create
+    events:
+      - http:
+          method: post
+          path: todo
+          private: true
+```
+- use `x-api-key` in the header
+## Remove
+```sh
+sls remove
+```
+### Deploy
+- apiKeys will be `printed` after deployment in the console
+```sh
+sls deploy
+```
 
 ## Issues
 ### **Error: Please install pg package manually**
